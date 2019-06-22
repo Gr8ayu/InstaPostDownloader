@@ -16,8 +16,12 @@ from urllib.request import urlretrieve
 
 # Taking username 
 URL = "https://www.instagram.com/"
-ID = input("Enter username :")
-
+ID = input("Enter username : ")
+N = input("Number of posts (0 for all) : ")
+if N == 0:
+	N = 99999999
+else :
+	N = int(N)
 
 # launching the firefox browser with instagram's URL
 print("Loading browser and opening page :")
@@ -40,6 +44,10 @@ for i in range(20):
     imagesSet = imagesSet.union(images)
     
     print("Please wait while we Scroll Pages. {} images found.".format(len(imagesSet)))
+    if len(imagesSet) > int(N):
+    	break
+
+
     try:
     	driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     except :
@@ -60,9 +68,11 @@ img_urls = []
 for image in imagesSet:
     if 'alt' in image.attrs and 'src' in image.attrs:
         img_urls.append([image['alt'],image['src'] ])
+    else:
+    	img_urls.append(["no caption",image['src'] ])
 
-if not os.path.exists(ID):
-    os.makedirs(ID)
+if not os.path.exists("./DownloadedImages/"+ID):
+    os.makedirs("./DownloadedImages/"+ID)
 # len(img_urls)
 
 
@@ -73,16 +83,16 @@ for urls in img_urls:
     img_src = urlparse(urls[1])
     filename = os.path.basename(img_src.path)
     try:
-        urlretrieve(urls[1], "./"+ID+"/" + filename)
+        urlretrieve(urls[1], "./DownloadedImages/"+ID+"/" + filename)
         countSuccess = countSuccess+1
         print("{}/{} : {} downloaded.".format(countSuccess,len(img_urls),filename ))
     except Exception as e:
-        print(filename," - failed to download ",e.args[0])
+        print(filename," - failed to download ",str(e))
         countFailed = countFailed + 1
 print("{} Sucessfully downloaded, {} Failed Out of {}".format(countSuccess,countFailed, len(img_urls)  ))
 
 # Storing the caption of images
-with open( "./"+ID+"/" +"image_info.txt",'w') as f:
+with open( "./DownloadedImages/"+ID+"/" +"image_info.txt",'w') as f:
     for urls in img_urls:
         img_src = urlparse(urls[1])
         filename = os.path.basename(img_src.path)
@@ -100,7 +110,7 @@ for urls in img_urls:
         a = re.split('Image may contain: |, | and ',urls[0])
         tags[filename] = a[1:]
         
-with open( "./"+ID+"/" +"Metadata.txt",'w') as f:
+with open("./DownloadedImages/"+ID+"/" +"Metadata.txt",'w') as f:
     f.write(str(tags))
     
 
