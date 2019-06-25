@@ -43,7 +43,7 @@ for i in range(20):
     images = soup.findAll('img',attrs={'class': 'FFVAD'})
     imagesSet = imagesSet.union(images)
     
-    print("Please wait while we Scroll Pages. {} images found.".format(len(imagesSet)))
+    print("\rPlease wait while we Scroll Pages. {} images found.".format(len(imagesSet)),end="")
     if len(imagesSet) > int(N):
     	break
 
@@ -70,7 +70,7 @@ for image in imagesSet:
         img_urls.append([image['alt'],image['src'] ])
     elif 'src' in image.attrs:
     	img_urls.append(["no caption",image['src'] ])
-    
+
 
 if not os.path.exists("./DownloadedImages/"+ID):
     os.makedirs("./DownloadedImages/"+ID)
