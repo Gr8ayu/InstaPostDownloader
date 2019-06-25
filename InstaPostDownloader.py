@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 # importing necessary packages
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -18,7 +18,7 @@ from urllib.request import urlretrieve
 URL = "https://www.instagram.com/"
 ID = input("Enter username : ")
 N = input("Number of posts (0 for all) : ")
-if N == 0:
+if N == "0":
 	N = 99999999
 else :
 	N = int(N)
@@ -68,8 +68,9 @@ img_urls = []
 for image in imagesSet:
     if 'alt' in image.attrs and 'src' in image.attrs:
         img_urls.append([image['alt'],image['src'] ])
-    else:
+    elif 'src' in image.attrs:
     	img_urls.append(["no caption",image['src'] ])
+    
 
 if not os.path.exists("./DownloadedImages/"+ID):
     os.makedirs("./DownloadedImages/"+ID)
