@@ -37,26 +37,36 @@ pg_size2 = 0
 imagesSet = set()
 
 # Scrolling page till end of page and storing Image tags of posts in set
-for i in range(20):
+for i in range(200):
     page = driver.page_source
     soup = bs(page,'html.parser')
     images = soup.findAll('img',attrs={'class': 'FFVAD'})
     imagesSet = imagesSet.union(images)
     
     print("\rPlease wait while we Scroll Pages. {} images found.".format(len(imagesSet)),end="")
+
+    # ending search if given number of image found
     if len(imagesSet) > int(N):
-    	break
+        print("{} image Search completed.".format(N))
+        break
 
-
+    #ending search if any error occurs
     try:
     	driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    except :
-    	break
+    except Exception as e :
+        print("Error occured while looking for more images :", str(e))
+        break
 
     time.sleep(5)
     pg_size2 = driver.execute_script("return document.body.scrollHeight;")
+
+    #ending search if unable to load more images
     if pg_size2 == pg_size:
-        break
+        time.sleep(10)
+        pg_size2 = driver.execute_script("return document.body.scrollHeight;")
+        if pg_size2 == pg_size:
+            print("No more image available")
+            break
     else:
         pg_size = pg_size2
 
