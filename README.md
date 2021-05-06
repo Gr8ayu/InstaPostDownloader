@@ -1,6 +1,6 @@
 # InstaPostDownloader
 
-InstaPostDownloader helps you download all the posts from Instagram public account just by typing their username. It collects and stores the images in a separate folder with their captions. It also stores the displayed content in separate file which can help you get training dataset for your image classification project.
+InstaPostDownloader helps you download all the posts from Instagram public account and private (if you follow them) just by typing their username. It collects and stores the images in a separate folder with their captions. It also stores the displayed content in separate file which can help you get training dataset for your image classification project.
 
 Requirements : 
 
