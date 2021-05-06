@@ -50,7 +50,7 @@ $ sudo mv geckodriver /usr/local/bin/
  
  #### Running Script:
  ```sh
- $ python3 InstaPostDownloader.py
+ $ python3 instaBot2.py
  ```
 
 # How To Contribute
